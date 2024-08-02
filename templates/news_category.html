@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News Page</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="font-sans antialiased">
+
+    <!-- Navigation Bar -->
+    <nav class="bg-white py-4 border-b">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="text-lg font-bold">
+                <a href="/" class="text-black">Home</a>
+            </div>
+            <div class="flex space-x-4">
+                <a href="/edukasi" class="text-gray-600 hover:text-black">Edukasi</a>
+                <a href="/otomotif" class="text-gray-600 hover:text-black">Otomotif</a>
+                <a href="/ekonomi" class="text-gray-600 hover:text-black">Ekonomi</a>
+                <a href="/travel" class="text-gray-600 hover:text-black">Travel</a>
+                <a href="/sport" class="text-gray-600 hover:text-black">Sport</a>
+                <a href="/food" class="text-gray-600 hover:text-black">Food</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="flex justify-center mt-8">
+        <!-- News List -->
+        <div class="max-w-2xl">
+            {% for news in recommended_news %}
+            <a href="/news/{{news[5]}}">
+            <!-- Single News Item -->
+            <div class="flex items-center bg-white justify-between w-full">
+                <div class="p-4 flex-grow">
+                    <h3 class="font-bold">{{news[4]}}</h3>
+                    <p> {{news[1]}}</p>
+                    <p> {{news[0]}}</p>
+                </div>
+                <div class="flex-shrink-0">
+                    <img src="{{news[6]}}" alt="News" class="w-44 h-36 object-cover"/>
+                 </div>
+            </div>
+            <hr class="border my-4"/>
+            <!-- Duplicate the above block for each news item, total 9 blocks as per the screenshot -->
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+
+</body>
+</html>

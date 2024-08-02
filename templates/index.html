@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News Page</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="font-sans antialiased">
+
+    <!-- Navigation Bar -->
+    <nav class="bg-white py-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="text-lg font-bold">
+                <a href="/" class="text-black">Home</a>
+            </div>
+            <div class="flex space-x-4">
+                <a href="/edukasi" class="text-gray-600">Edukasi</a>
+                <a href="/otomotif" class="text-gray-600">Otomotif</a>
+                <a href="/ekonomi" class="text-gray-600">Ekonomi</a>
+                <a href="/travel" class="text-gray-600">Travel</a>
+                <a href="/sport" class="text-gray-600">Sport</a>
+                <a href="/food" class="text-gray-600">Food</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mx-auto mt-8">
+        <!-- Featured News -->
+        <div class="relative">
+            <a href="/news/{{recommended_news[0][5]}}">
+            <img src="{{recommended_news[0][6]}}" alt="Featured News" class="w-full h-64 object-cover">
+            <div class="absolute bottom-0 left-0 p-4 bg-black bg-opacity-50 text-white">
+                <h2 class="text-xl font-bold">{{recommended_news[0][4]}}</h2>
+                <p>{{recommended_news[0][1]}}</p>
+            </div>
+            </a>
+        </div>
+
+        <!-- News Grid -->
+        <div class="grid grid-cols-3 gap-4 mt-8">
+            <!-- Single News Item -->
+            {% for news in recommended_news[1:] %}
+            <div class="bg-white shadow-md overflow-hidden"><a href="/news/{{news[5]}}">
+                <img src="{{news[6]}}" alt="News" class="w-full h-32 object-cover">
+                <div class="p-4">
+                    <h3 class="font-bold">{{news[4]}}</h3>
+                    <p>{{news[1]}}</p>
+                </div></a>
+            </div>
+            {% endfor %}
+            <!-- Duplicate above block for each news item -->
+            <!-- Repeat the above div block for each news item, total 9 blocks as per the screenshot -->
+        </div>
+    </div>
+
+</body>
+</html>

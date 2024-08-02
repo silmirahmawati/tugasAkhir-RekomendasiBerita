@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News Layout</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="bg-white py-4 border-b">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="text-lg font-bold">
+                <a href="/" class="text-black">Home</a>
+            </div>
+            <div class="flex space-x-4">
+                <a href="/edukasi" class="text-gray-600 hover:text-black">Edukasi</a>
+                <a href="/otomotif" class="text-gray-600 hover:text-black">Otomotif</a>
+                <a href="/ekonomi" class="text-gray-600 hover:text-black">Ekonomi</a>
+                <a href="/travel" class="text-gray-600 hover:text-black">Travel</a>
+                <a href="/sport" class="text-gray-600 hover:text-black">Sport</a>
+                <a href="/food" class="text-gray-600 hover:text-black">Food</a>
+            </div>
+        </div>
+    </nav>
+    <div class="bg-gray-100 p-8">
+        <div class="max-w-7xl mx-auto bg-white shadow-md rounded-lg overflow-hidden">
+            <div class="p-12 ">
+                <h1 class="text-3xl font-bold mb-6">{{title}}</h1>
+                <img src="{{image}}" alt="News Image" class="w-full h-80 object-cover mb-12 rounded-md">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="md:col-span-2">
+                        <iframe src="{{url}}" width="100%" class="h-full">
+                        </iframe>
+                    </div>
+                    <div class="md:col-span-1">
+                        <h2 class="text-xl font-semibold mb-4 text-center">Rekomendasi Berita</h2>
+                        <ul class="space-y-4">
+                            {% for news in recommended_news %}
+                            <a href="/news/{{news[5]}}">
+                            <li class="flex items-start space-x-4 mb-4">
+                                <img src="{{news[6]}}" alt="Thumbnail" class="w-20 h-20 object-cover">
+                                <div>
+                                    <h3 class="text-md font-semibold">{{news[4]}}</h3>
+                                    <p class="line-clamp-3 text-gray-600 text-sm text-justify">{{news[1]}}</p>
+                                </div>
+                            </li>
+                            </a>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
