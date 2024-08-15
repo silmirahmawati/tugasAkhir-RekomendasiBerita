@@ -5,7 +5,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def home():
-    loaded_rules = pd.read_pickle('sup_005-conf_01/combined_rules.pickle')
+    loaded_rules = pd.read_pickle('sup_01-conf_01/combined_rules.pickle')
     df_news_tag = pd.read_csv('dataset_update_w_content.csv',index_col=0)
     # Contoh penggunaan fungsi rekomendasi
 
@@ -16,7 +16,7 @@ def home():
 
 @app.route('/edukasi')
 def edukasi():
-    loaded_rules = pd.read_pickle('sup_005-conf_01/edukasi_rules.pickle')
+    loaded_rules = pd.read_pickle('sup_01-conf_01/edukasi_rules.pickle')
     df_news_tag = pd.read_csv('dataset_update_w_content.csv',index_col=0)
     # Contoh penggunaan fungsi rekomendasi
 
@@ -27,7 +27,7 @@ def edukasi():
 
 @app.route('/otomotif')
 def otomotif():
-    loaded_rules = pd.read_pickle('sup_005-conf_01/otomotif_rules.pickle')
+    loaded_rules = pd.read_pickle('sup_01-conf_01/otomotif_rules.pickle')
     df_news_tag = pd.read_csv('dataset_update_w_content.csv',index_col=0)
     # Contoh penggunaan fungsi rekomendasi
 
@@ -38,7 +38,7 @@ def otomotif():
 
 @app.route('/ekonomi')
 def ekonomi():
-    loaded_rules = pd.read_pickle('sup_005-conf_01/ekonomi_rules.pickle')
+    loaded_rules = pd.read_pickle('sup_01-conf_01/ekonomi_rules.pickle')
     df_news_tag = pd.read_csv('dataset_update_w_content.csv',index_col=0)
     # Contoh penggunaan fungsi rekomendasi
 
@@ -49,7 +49,7 @@ def ekonomi():
 
 @app.route('/travel')
 def travel():
-    loaded_rules = pd.read_pickle('sup_005-conf_01/travel_rules.pickle')
+    loaded_rules = pd.read_pickle('sup_01-conf_01/travel_rules.pickle')
     df_news_tag = pd.read_csv('dataset_update_w_content.csv',index_col=0)
     # Contoh penggunaan fungsi rekomendasi
 
@@ -60,7 +60,7 @@ def travel():
 
 @app.route('/sport')
 def sport():
-    loaded_rules = pd.read_pickle('sup_005-conf_01/sport_rules.pickle')
+    loaded_rules = pd.read_pickle('sup_01-conf_01/sport_rules.pickle')
     df_news_tag = pd.read_csv('dataset_update_w_content.csv',index_col=0)
     # Contoh penggunaan fungsi rekomendasi
 
@@ -71,7 +71,7 @@ def sport():
 
 @app.route('/food')
 def food():
-    loaded_rules = pd.read_pickle('sup_005-conf_01/food_rules.pickle')
+    loaded_rules = pd.read_pickle('sup_01-conf_01/food_rules.pickle')
     df_news_tag = pd.read_csv('dataset_update_w_content.csv',index_col=0)
     # Contoh penggunaan fungsi rekomendasi
 
@@ -156,17 +156,17 @@ def show_news(id):
     given_tags = df_news_tag.iloc[id, 5].split(',')
 
     if df_news_tag.iloc[id,4] == 'edukasi':
-        loaded_rules = pd.read_pickle('./sup_005-conf_01/edukasi_rules.pickle')
+        loaded_rules = pd.read_pickle('./sup_01-conf_01/edukasi_rules.pickle')
     elif df_news_tag.iloc[id,4] == 'ekonomi':
-        loaded_rules = pd.read_pickle('./sup_005-conf_01/ekonomi_rules.pickle')
+        loaded_rules = pd.read_pickle('./sup_01-conf_01/ekonomi_rules.pickle')
     elif df_news_tag.iloc[id,4] == 'otomotif':
-        loaded_rules = pd.read_pickle('./sup_005-conf_01/otomotif_rules.pickle')
+        loaded_rules = pd.read_pickle('./sup_01-conf_01/otomotif_rules.pickle')
     elif df_news_tag.iloc[id,4] == 'travel':
-        loaded_rules = pd.read_pickle('./sup_005-conf_01/travel_rules.pickle')
+        loaded_rules = pd.read_pickle('./sup_01-conf_01/travel_rules.pickle')
     elif df_news_tag.iloc[id,4] == 'sport':
-        loaded_rules = pd.read_pickle('./sup_005-conf_01/sport_rules.pickle')
+        loaded_rules = pd.read_pickle('./sup_01-conf_01/sport_rules.pickle')
     elif df_news_tag.iloc[id,4] == 'food':
-        loaded_rules = pd.read_pickle('./sup_005-conf_01/food_rules.pickle')
+        loaded_rules = pd.read_pickle('./sup_01-conf_01/food_rules.pickle')
 
     recommended_news = recommend_news1(given_tags, loaded_rules, df_news_tag, df_news_tag.iloc[id,4], id)
     # print("\nRecommended news:\n- "+ "\n- ".join(", ".join(map(str, news)) for news in recommended_news))
