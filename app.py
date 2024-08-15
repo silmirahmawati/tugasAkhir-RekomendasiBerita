@@ -20,7 +20,7 @@ def edukasi():
     df_news_tag = pd.read_csv('dataset_update_w_content.csv',index_col=0)
     # Contoh penggunaan fungsi rekomendasi
 
-    given_tags = ['adha', 'timnas', 'rumah', 'thr', 'liburan', 'skripsi']
+    given_tags = ['adha', 'rumah', 'thr', 'liburan', 'skripsi']
     recommended_news = recommend_news1(given_tags, loaded_rules, df_news_tag, 'edukasi', length=50)
     # print("\nRecommended news:\n- "+ "\n- ".join(", ".join(map(str, news)) for news in recommended_news))
     return render_template('news_category.html', recommended_news=recommended_news)
@@ -31,7 +31,7 @@ def otomotif():
     df_news_tag = pd.read_csv('dataset_update_w_content.csv',index_col=0)
     # Contoh penggunaan fungsi rekomendasi
 
-    given_tags = ['adha', 'timnas', 'rumah', 'thr', 'liburan', 'skripsi']
+    given_tags = ['adha', 'rumah', 'thr', 'liburan', 'skripsi']
     recommended_news = recommend_news1(given_tags, loaded_rules, df_news_tag, 'otomotif', length=50)
     # print("\nRecommended news:\n- "+ "\n- ".join(", ".join(map(str, news)) for news in recommended_news))
     return render_template('news_category.html', recommended_news=recommended_news)
