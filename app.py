@@ -9,7 +9,7 @@ def home():
     df_news_tag = pd.read_csv('dataset_update_w_content.csv',index_col=0)
     # Contoh penggunaan fungsi rekomendasi
 
-    given_tags = ['adha', 'timnas', 'rumah', 'thr', 'liburan', 'skripsi']
+    given_tags = ['adha','rumah', 'thr', 'liburan', 'skripsi']
     recommended_news = recommend_news1(given_tags, loaded_rules, df_news_tag)
     # print("\nRecommended news:\n- "+ "\n- ".join(", ".join(map(str, news)) for news in recommended_news))
     return render_template('index.html', recommended_news=recommended_news)
@@ -42,7 +42,7 @@ def ekonomi():
     df_news_tag = pd.read_csv('dataset_update_w_content.csv',index_col=0)
     # Contoh penggunaan fungsi rekomendasi
 
-    given_tags = ['adha', 'timnas', 'rumah', 'thr', 'liburan', 'skripsi']
+    given_tags = ['adha','rumah', 'thr', 'liburan', 'skripsi']
     recommended_news = recommend_news1(given_tags, loaded_rules, df_news_tag, 'ekonomi', length=50)
     # print("\nRecommended news:\n- "+ "\n- ".join(", ".join(map(str, news)) for news in recommended_news))
     return render_template('news_category.html', recommended_news=recommended_news)
@@ -53,7 +53,7 @@ def travel():
     df_news_tag = pd.read_csv('dataset_update_w_content.csv',index_col=0)
     # Contoh penggunaan fungsi rekomendasi
 
-    given_tags = ['adha', 'timnas', 'rumah', 'thr', 'liburan', 'skripsi']
+    given_tags = ['adha','rumah', 'thr', 'liburan', 'skripsi']
     recommended_news = recommend_news1(given_tags, loaded_rules, df_news_tag, 'travel', length=50)
     # print("\nRecommended news:\n- "+ "\n- ".join(", ".join(map(str, news)) for news in recommended_news))
     return render_template('news_category.html', recommended_news=recommended_news)
@@ -64,7 +64,7 @@ def sport():
     df_news_tag = pd.read_csv('dataset_update_w_content.csv',index_col=0)
     # Contoh penggunaan fungsi rekomendasi
 
-    given_tags = ['adha', 'timnas', 'rumah', 'thr', 'liburan', 'skripsi']
+    given_tags = ['adha','rumah', 'thr', 'liburan', 'skripsi']
     recommended_news = recommend_news1(given_tags, loaded_rules, df_news_tag, 'sport', length=50)
     # print("\nRecommended news:\n- "+ "\n- ".join(", ".join(map(str, news)) for news in recommended_news))
     return render_template('news_category.html', recommended_news=recommended_news)
@@ -75,7 +75,7 @@ def food():
     df_news_tag = pd.read_csv('dataset_update_w_content.csv',index_col=0)
     # Contoh penggunaan fungsi rekomendasi
 
-    given_tags = ['adha', 'timnas', 'rumah', 'thr', 'liburan', 'skripsi']
+    given_tags = ['adha','rumah', 'thr', 'liburan', 'skripsi']
     recommended_news = recommend_news1(given_tags, loaded_rules, df_news_tag, 'food', length=50)
     # print("\nRecommended news:\n- "+ "\n- ".join(", ".join(map(str, news)) for news in recommended_news))
     return render_template('news_category.html', recommended_news=recommended_news)
