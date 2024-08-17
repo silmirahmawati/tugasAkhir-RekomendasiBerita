@@ -26,7 +26,7 @@ def edukasi():
     pref_keyword = json.loads(pref_keyword)
     given_tags = list(map(lambda x: x[0], pref_keyword))
     # given_tags = ['adha', 'rumah', 'thr', 'liburan', 'skripsi']
-    recommended_news = recommend_news1(given_tags, loaded_rules, df_news_tag, 'edukasi', length=50)
+    recommended_news = recommend_news1(given_tags, loaded_rules, df_news_tag[df_news_tag['category'] == 'edukasi'], 'edukasi', length=50)
     # print("\nRecommended news:\n- "+ "\n- ".join(", ".join(map(str, news)) for news in recommended_news))
     return render_template('news_category.html', recommended_news=recommended_news)
 
@@ -38,7 +38,7 @@ def otomotif():
     pref_keyword = request.cookies.get('preferences') or "[]"
     pref_keyword = json.loads(pref_keyword)
     given_tags = list(map(lambda x: x[0], pref_keyword))
-    recommended_news = recommend_news1(given_tags, loaded_rules, df_news_tag, 'otomotif', length=50)
+    recommended_news = recommend_news1(given_tags, loaded_rules,  df_news_tag[df_news_tag['category'] == 'otomotif'], 'otomotif', length=50)
     # print("\nRecommended news:\n- "+ "\n- ".join(", ".join(map(str, news)) for news in recommended_news))
     return render_template('news_category.html', recommended_news=recommended_news)
 
@@ -50,7 +50,7 @@ def ekonomi():
     pref_keyword = request.cookies.get('preferences') or "[]"
     pref_keyword = json.loads(pref_keyword)
     given_tags = list(map(lambda x: x[0], pref_keyword))
-    recommended_news = recommend_news1(given_tags, loaded_rules, df_news_tag, 'ekonomi', length=50)
+    recommended_news = recommend_news1(given_tags, loaded_rules,  df_news_tag[df_news_tag['category'] == 'ekonomi'], 'ekonomi', length=50)
     # print("\nRecommended news:\n- "+ "\n- ".join(", ".join(map(str, news)) for news in recommended_news))
     return render_template('news_category.html', recommended_news=recommended_news)
 
@@ -62,7 +62,7 @@ def travel():
     pref_keyword = request.cookies.get('preferences') or "[]"
     pref_keyword = json.loads(pref_keyword)
     given_tags = list(map(lambda x: x[0], pref_keyword))
-    recommended_news = recommend_news1(given_tags, loaded_rules, df_news_tag, 'travel', length=50)
+    recommended_news = recommend_news1(given_tags, loaded_rules,  df_news_tag[df_news_tag['category'] == 'travel'], 'travel', length=50)
     # print("\nRecommended news:\n- "+ "\n- ".join(", ".join(map(str, news)) for news in recommended_news))
     return render_template('news_category.html', recommended_news=recommended_news)
 
@@ -74,7 +74,7 @@ def sport():
     pref_keyword = request.cookies.get('preferences') or "[]"
     pref_keyword = json.loads(pref_keyword)
     given_tags = list(map(lambda x: x[0], pref_keyword))
-    recommended_news = recommend_news1(given_tags, loaded_rules, df_news_tag, 'sport', length=50)
+    recommended_news = recommend_news1(given_tags, loaded_rules,  df_news_tag[df_news_tag['category'] == 'sport'], 'sport', length=50)
     # print("\nRecommended news:\n- "+ "\n- ".join(", ".join(map(str, news)) for news in recommended_news))
     return render_template('news_category.html', recommended_news=recommended_news)
 
@@ -86,7 +86,7 @@ def food():
     pref_keyword = request.cookies.get('preferences') or "[]"
     pref_keyword = json.loads(pref_keyword)
     given_tags = list(map(lambda x: x[0], pref_keyword))
-    recommended_news = recommend_news1(given_tags, loaded_rules, df_news_tag, 'food', length=50)
+    recommended_news = recommend_news1(given_tags, loaded_rules, df_news_tag[df_news_tag['category'] == 'food'], 'food', length=50)
     # print("\nRecommended news:\n- "+ "\n- ".join(", ".join(map(str, news)) for news in recommended_news))
     return render_template('news_category.html', recommended_news=recommended_news)
 
@@ -96,7 +96,7 @@ import re
 def recommend_news1(given_keywords, rules, df, category = '', idberita = '', length = 10):
     if given_keywords == [] :
         recommended_news = []
-        for row in df.tail(10).itertuples(index=True):
+        for row in df.tail(length).itertuples(index=True):
             id = row.Index
             title = row.title
             desc = row.body
@@ -167,6 +167,8 @@ def recommend_news1(given_keywords, rules, df, category = '', idberita = '', len
             score = topic_score + (date_score)
             recommended_news.append((date, desc, score, source, title, id, image))
 
+    if len(recommended_news) < 2:
+        return recommend_news1([], rules, df, category,length = 10)
       # Sort by score
     sorted_news = sorted(recommended_news, key=lambda x: x[2], reverse=True)[:length]
     return [news for news in sorted_news]
