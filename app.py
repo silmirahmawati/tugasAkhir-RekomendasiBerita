@@ -1,5 +1,6 @@
 import pandas as pd
-from flask import Flask, render_template
+from flask import Flask, render_template, make_response, request
+import json
 
 app = Flask(__name__)
 
@@ -8,8 +9,9 @@ def home():
     loaded_rules = pd.read_pickle('sup_01-conf_01/combined_rules.pickle')
     df_news_tag = pd.read_csv('dataset_update_w_content.csv',index_col=0)
     # Contoh penggunaan fungsi rekomendasi
-
-    given_tags = ['adha','rumah', 'thr', 'liburan', 'skripsi']
+    pref_keyword = request.cookies.get('preferences') or "[]"
+    pref_keyword = json.loads(pref_keyword)
+    given_tags = list(map(lambda x: x[0], pref_keyword))
     recommended_news = recommend_news1(given_tags, loaded_rules, df_news_tag)
     # print("\nRecommended news:\n- "+ "\n- ".join(", ".join(map(str, news)) for news in recommended_news))
     return render_template('index.html', recommended_news=recommended_news)
@@ -20,7 +22,10 @@ def edukasi():
     df_news_tag = pd.read_csv('dataset_update_w_content.csv',index_col=0)
     # Contoh penggunaan fungsi rekomendasi
 
-    given_tags = ['adha', 'rumah', 'thr', 'liburan', 'skripsi']
+    pref_keyword = request.cookies.get('preferences') or "[]"
+    pref_keyword = json.loads(pref_keyword)
+    given_tags = list(map(lambda x: x[0], pref_keyword))
+    # given_tags = ['adha', 'rumah', 'thr', 'liburan', 'skripsi']
     recommended_news = recommend_news1(given_tags, loaded_rules, df_news_tag, 'edukasi', length=50)
     # print("\nRecommended news:\n- "+ "\n- ".join(", ".join(map(str, news)) for news in recommended_news))
     return render_template('news_category.html', recommended_news=recommended_news)
@@ -30,8 +35,9 @@ def otomotif():
     loaded_rules = pd.read_pickle('sup_01-conf_01/otomotif_rules.pickle')
     df_news_tag = pd.read_csv('dataset_update_w_content.csv',index_col=0)
     # Contoh penggunaan fungsi rekomendasi
-
-    given_tags = ['adha', 'rumah', 'thr', 'liburan', 'skripsi']
+    pref_keyword = request.cookies.get('preferences') or "[]"
+    pref_keyword = json.loads(pref_keyword)
+    given_tags = list(map(lambda x: x[0], pref_keyword))
     recommended_news = recommend_news1(given_tags, loaded_rules, df_news_tag, 'otomotif', length=50)
     # print("\nRecommended news:\n- "+ "\n- ".join(", ".join(map(str, news)) for news in recommended_news))
     return render_template('news_category.html', recommended_news=recommended_news)
@@ -41,8 +47,9 @@ def ekonomi():
     loaded_rules = pd.read_pickle('sup_01-conf_01/ekonomi_rules.pickle')
     df_news_tag = pd.read_csv('dataset_update_w_content.csv',index_col=0)
     # Contoh penggunaan fungsi rekomendasi
-
-    given_tags = ['adha','rumah', 'thr', 'liburan', 'skripsi']
+    pref_keyword = request.cookies.get('preferences') or "[]"
+    pref_keyword = json.loads(pref_keyword)
+    given_tags = list(map(lambda x: x[0], pref_keyword))
     recommended_news = recommend_news1(given_tags, loaded_rules, df_news_tag, 'ekonomi', length=50)
     # print("\nRecommended news:\n- "+ "\n- ".join(", ".join(map(str, news)) for news in recommended_news))
     return render_template('news_category.html', recommended_news=recommended_news)
@@ -52,8 +59,9 @@ def travel():
     loaded_rules = pd.read_pickle('sup_01-conf_01/travel_rules.pickle')
     df_news_tag = pd.read_csv('dataset_update_w_content.csv',index_col=0)
     # Contoh penggunaan fungsi rekomendasi
-
-    given_tags = ['adha','rumah', 'thr', 'liburan', 'skripsi']
+    pref_keyword = request.cookies.get('preferences') or "[]"
+    pref_keyword = json.loads(pref_keyword)
+    given_tags = list(map(lambda x: x[0], pref_keyword))
     recommended_news = recommend_news1(given_tags, loaded_rules, df_news_tag, 'travel', length=50)
     # print("\nRecommended news:\n- "+ "\n- ".join(", ".join(map(str, news)) for news in recommended_news))
     return render_template('news_category.html', recommended_news=recommended_news)
@@ -63,8 +71,9 @@ def sport():
     loaded_rules = pd.read_pickle('sup_01-conf_01/sport_rules.pickle')
     df_news_tag = pd.read_csv('dataset_update_w_content.csv',index_col=0)
     # Contoh penggunaan fungsi rekomendasi
-
-    given_tags = ['adha','rumah', 'thr', 'liburan', 'skripsi']
+    pref_keyword = request.cookies.get('preferences') or "[]"
+    pref_keyword = json.loads(pref_keyword)
+    given_tags = list(map(lambda x: x[0], pref_keyword))
     recommended_news = recommend_news1(given_tags, loaded_rules, df_news_tag, 'sport', length=50)
     # print("\nRecommended news:\n- "+ "\n- ".join(", ".join(map(str, news)) for news in recommended_news))
     return render_template('news_category.html', recommended_news=recommended_news)
@@ -74,8 +83,9 @@ def food():
     loaded_rules = pd.read_pickle('sup_01-conf_01/food_rules.pickle')
     df_news_tag = pd.read_csv('dataset_update_w_content.csv',index_col=0)
     # Contoh penggunaan fungsi rekomendasi
-
-    given_tags = ['adha','rumah', 'thr', 'liburan', 'skripsi']
+    pref_keyword = request.cookies.get('preferences') or "[]"
+    pref_keyword = json.loads(pref_keyword)
+    given_tags = list(map(lambda x: x[0], pref_keyword))
     recommended_news = recommend_news1(given_tags, loaded_rules, df_news_tag, 'food', length=50)
     # print("\nRecommended news:\n- "+ "\n- ".join(", ".join(map(str, news)) for news in recommended_news))
     return render_template('news_category.html', recommended_news=recommended_news)
@@ -84,6 +94,21 @@ from datetime import datetime
 import re
 
 def recommend_news1(given_keywords, rules, df, category = '', idberita = '', length = 10):
+    if given_keywords == [] :
+        recommended_news = []
+        for row in df.tail(10).itertuples(index=True):
+            id = row.Index
+            title = row.title
+            desc = row.body
+            keywords = row.keywords
+            date = row.date
+            source = row.source
+            news_category = row.category
+            image=row.image
+
+            recommended_news.append((date, desc, 0, source, title, id, image))
+        return recommended_news
+        
     recommended_keywords = given_keywords[:]
     confidence_rules = set()  # List untuk menyimpan aturan dan nilai confidence
 
@@ -99,12 +124,12 @@ def recommend_news1(given_keywords, rules, df, category = '', idberita = '', len
     # Ambil maksimal 4 keyword dengan confidence paling tinggi
     count = 0
     for antecedents, consequents, confidence, antecedents_support in confidence_rules:
-      if count >= 4:
-        break
-      for keyword in consequents:
-        if keyword not in recommended_keywords:
-          recommended_keywords.append(keyword)
-          count += 1
+        if count >= 4:
+            break
+        for keyword in consequents:
+            if keyword not in recommended_keywords:
+                recommended_keywords.append(keyword)
+                count += 1
     print(recommended_keywords)
     
     # Cari berita yang mengandung recommended_keywords
@@ -134,13 +159,13 @@ def recommend_news1(given_keywords, rules, df, category = '', idberita = '', len
 
         # Prioritize news with more matching keywords at the beginning
         if matched_keywords:
-          topic_score = sum(len(recommended_keywords) if keyword in given_keywords else len(recommended_keywords) - 2 - (recommended_keywords.index(keyword) - len(given_keywords)) for keyword in matched_keywords) * 10
-          given_date = datetime.strptime(date, '%Y-%m-%d')
-          today = datetime.strptime('2024-07-28', '%Y-%m-%d')
-          days_difference = (today - given_date).days
-          date_score = len(recommended_keywords) * 10 - (days_difference * 2)
-          score = topic_score + (date_score)
-          recommended_news.append((date, desc, score, source, title, id, image))
+            topic_score = sum(len(recommended_keywords) if keyword in given_keywords else len(recommended_keywords) - 2 - (recommended_keywords.index(keyword) - len(given_keywords)) for keyword in matched_keywords) * 10
+            given_date = datetime.strptime(date, '%Y-%m-%d')
+            today = datetime.strptime('2024-07-28', '%Y-%m-%d')
+            days_difference = (today - given_date).days
+            date_score = len(recommended_keywords) * 10 - (days_difference * 2)
+            score = topic_score + (date_score)
+            recommended_news.append((date, desc, score, source, title, id, image))
 
       # Sort by score
     sorted_news = sorted(recommended_news, key=lambda x: x[2], reverse=True)[:length]
@@ -170,7 +195,26 @@ def show_news(id):
 
     recommended_news = recommend_news1(given_tags, loaded_rules, df_news_tag, df_news_tag.iloc[id,4], id)
     # print("\nRecommended news:\n- "+ "\n- ".join(", ".join(map(str, news)) for news in recommended_news))
-    return render_template('news.html', title=df_news_tag.iloc[id,0], image=df_news_tag.iloc[id,7], url=df_news_tag.iloc[id,6], recommended_news=recommended_news)
+    resp = make_response(render_template('news.html', title=df_news_tag.iloc[id,0], image=df_news_tag.iloc[id,7], url=df_news_tag.iloc[id,6], recommended_news=recommended_news))
+    
+    pref_keyword = request.cookies.get('preferences') or "[]"
+    pref_keyword = json.loads(pref_keyword)
+
+    # pref_keyword = [["timnas", 1], ["pesan", 3]]
+    print(pref_keyword, "\n")
+    iteration = len(pref_keyword)
+    for tag in given_tags:
+        if tag not in list(map(lambda x: x[0], pref_keyword)):
+            pref_keyword.append([tag, 1])
+        else :
+            for i in range(iteration):
+                if tag == pref_keyword[i][0]:
+                    pref_keyword[i][1] = pref_keyword[i][1] + 1
+    pref_keyword.sort(key=lambda x: x[1], reverse=True)
+    print(pref_keyword[:7])
+    pref = json.dumps(pref_keyword)
+    resp.set_cookie('preferences', pref)
+    return resp
 
 if __name__ == '__main__':
     app.run(debug=True)
